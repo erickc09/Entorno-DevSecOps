@@ -1,6 +1,8 @@
 from flask import Flask, render_template
 
 app = Flask(__name__)
+app.config['ENV'] = 'development'  # Asegurar entorno de desarrollo
+app.config['DEBUG'] = True  # Activar depuración
 
 @app.route('/')
 def home():
