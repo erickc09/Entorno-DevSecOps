@@ -25,24 +25,17 @@ jobs:
         run: |
           pip install -r app/requirements.txt
 
-      # Paso 4: Depurar la respuesta HTML (opcional para ver contenido)
+      # Paso 4: Depurar la respuesta HTML
       - name: Debug Flask Response
         run: |
-          python -c "from app import app; response = app.test_client().get('/'); print(response.data.decode('utf-8'))"
+          python -c "
+          from app import app;
+          with app.test_client() as client:
+              response = client.get('/');
+              print(response.data.decode('utf-8'));
+          "
 
-      # Paso 5: Guardar el contenido HTML si es necesario
-      - name: Save HTML Response
-        run: |
-          python -c "from app import app; response = app.test_client().get('/'); open('response.html', 'w').write(response.data.decode('utf-8'))"
-
-      # Paso 6: Subir HTML Response para inspección manual
-      - name: Upload HTML Response
-        uses: actions/upload-artifact@v3
-        with:
-          name: html-response
-          path: response.html
-
-      # Paso 7: Ejecutar pruebas unitarias
+      # Paso 5: Ejecutar pruebas unitarias
       - name: Run Tests
         run: |
           python -m unittest discover -s app/tests
