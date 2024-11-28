@@ -1,5 +1,11 @@
 import unittest
-from app import app
+import sys
+import os
+
+# Agregar la ruta de la carpeta `app` al sistema
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from app import app  # Importar la aplicación Flask
 
 class TestApp(unittest.TestCase):
     def setUp(self):

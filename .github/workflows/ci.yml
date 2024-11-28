@@ -1,6 +1,6 @@
-Set-Content -Path .github\workflows\ci.yml -Value @"
 name: CI/CD Pipeline
 
+# Disparador del pipeline
 on:
   push:
     branches:
@@ -11,19 +11,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Paso 1: Descargar el código
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      # Paso 2: Configurar Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
+      # Paso 3: Instalar dependencias
       - name: Install Dependencies
         run: |
           pip install -r app/requirements.txt
 
+      # Paso 4: Ejecutar pruebas unitarias
       - name: Run Tests
         run: |
           python -m unittest discover -s app/tests
-"@
