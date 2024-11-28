@@ -1,0 +1,10 @@
+# Archivos temporales
+__pycache__/
+*.pyc
+*.pyo
+
+# Configuración de Docker
+*.env
+
+# Informes
+reports/
