@@ -13,12 +13,15 @@ class TestApp(unittest.TestCase):
         self.app.testing = True
 
     def test_home_status_code(self):
+        """Verifica que la página principal devuelve un código HTTP 200"""
         response = self.app.get('/')
         self.assertEqual(response.status_code, 200)
 
     def test_home_content(self):
+        """Verifica que el contenido de la página principal contiene palabras clave"""
         response = self.app.get('/')
-        self.assertIn(b'Welcome to DevSecOps CVSS Evaluation', response.data)
+        self.assertIn(b'Noticias DevSecOps', response.data)  # Texto clave del header
+        self.assertIn(b'Welcome to DevSecOps CVSS Evaluation', response.data)  # Texto dentro del HTML
 
 if __name__ == "__main__":
     unittest.main()
