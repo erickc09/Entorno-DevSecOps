@@ -1,6 +1,7 @@
 import unittest
 import sys
 import os
+from bs4 import BeautifulSoup  # Importar BeautifulSoup para procesar HTML
 
 # Agregar la ruta de la carpeta `app` al sistema
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -18,10 +19,12 @@ class TestApp(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_home_content(self):
-        """Verifica que el contenido de la página principal contiene palabras clave"""
+        """Verifica que el contenido visible de la página principal contiene palabras clave"""
         response = self.app.get('/')
-        self.assertIn(b'Noticias DevSecOps', response.data)  # Texto clave del header
-        self.assertIn(b'Welcome to DevSecOps CVSS Evaluation', response.data)  # Texto dentro del HTML
+        soup = BeautifulSoup(response.data, 'html.parser')
+        visible_text = soup.get_text()  # Extraer solo el texto visible
+        self.assertIn('Noticias DevSecOps', visible_text)  # Título principal
+        self.assertIn('El lugar para estar al día en seguridad y desarrollo', visible_text)  # Subtítulo
 
 if __name__ == "__main__":
     unittest.main()
